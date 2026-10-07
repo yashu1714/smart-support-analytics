@@ -1,0 +1,73 @@
+message,category
+My payment failed,Payment
+My card was charged twice,Payment
+I was charged for the same order twice,Payment
+I have not received my refund,Payment
+Money was deducted from my account,Payment
+The payment was declined,Payment
+Why was I charged extra,Payment
+My transaction failed,Payment
+My credit card payment did not go through,Payment
+The payment page is rejecting my card,Payment
+I paid but the transaction is still pending,Payment
+I was charged but my order was cancelled,Payment
+The refund has not reached my bank account,Payment
+There is an unknown charge on my card,Payment
+I was billed incorrectly,Payment
+My debit card was charged but payment failed,Payment
+The payment is stuck in pending status,Payment
+I need help with a duplicate transaction,Payment
+The amount was deducted twice,Payment
+I cannot complete my online payment,Payment
+I cannot login to my account,Account
+I forgot my password,Account
+I cannot access my account,Account
+My account is locked,Account
+I need to reset my password,Account
+I am unable to sign in,Account
+My username is not working,Account
+I cannot access my profile,Account
+I forgot my login credentials,Account
+How do I change my password,Account
+My account login is failing,Account
+I am locked out of my account,Account
+I cannot sign into the application,Account
+My password reset link is not working,Account
+I need to update my account details,Account
+My profile is inaccessible,Account
+The application keeps crashing,Technical
+The app is showing an error,Technical
+The website is not working,Technical
+I found a bug in the application,Technical
+The page keeps crashing,Technical
+The system is showing an error message,Technical
+The application is very slow,Technical
+The website stopped working,Technical
+The app crashes whenever I open it,Technical
+I am getting an unexpected error,Technical
+The website has stopped responding,Technical
+The application is not loading,Technical
+There is a technical problem with the app,Technical
+The screen freezes when I use the application,Technical
+The server is giving an error,Technical
+The application has a bug,Technical
+The page is stuck and does not load,Technical
+The app is not responding,Technical
+My order has not arrived,Delivery
+My delivery is late,Delivery
+Where is my order,Delivery
+I have not received my package,Delivery
+My order delivery is delayed,Delivery
+The package has not arrived,Delivery
+I want to track my order,Delivery
+My shipment is delayed,Delivery
+The delivery date has passed,Delivery
+My package is still not delivered,Delivery
+Where can I track my shipment,Delivery
+My order is taking too long to arrive,Delivery
+The courier has not delivered my package,Delivery
+My delivery is overdue,Delivery
+I have been waiting for my order,Delivery
+The package is delayed,Delivery
+My order has not been delivered yet,Delivery
+The shipment status has not changed,Delivery
