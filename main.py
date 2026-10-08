@@ -28,10 +28,11 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
 
-    allow_origins=[
-        "http://localhost:5174",
-        "http://localhost:5173"
-    ],
+   allow_origins=[
+    "http://localhost:5174",
+    "http://localhost:5173",
+    "https://smart-support-analytics-4tol.vercel.app"
+],
 
     allow_credentials=True,
 
