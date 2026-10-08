@@ -1,22 +1,49 @@
 import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-if os.getenv("VERCEL"):
-    DATABASE_URL = "sqlite:////tmp/support.db"
-else:
+if not DATABASE_URL:
+
     DATABASE_URL = "sqlite:///./support.db"
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={
-        "check_same_thread": False
-    }
-)
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args={
+            "check_same_thread": False
+        }
+    )
+
+
+else:
+
+    if DATABASE_URL.startswith("postgresql://"):
+
+        DATABASE_URL = DATABASE_URL.replace(
+            "postgresql://",
+            "postgresql+psycopg://",
+            1
+        )
+
+    elif DATABASE_URL.startswith("postgres://"):
+
+        DATABASE_URL = DATABASE_URL.replace(
+            "postgres://",
+            "postgresql+psycopg://",
+            1
+        )
+
+    engine = create_engine(
+        DATABASE_URL
+    )
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
 )
+
+
+
 Base = declarative_base()
