@@ -4,16 +4,10 @@ An AI-powered customer support analytics dashboard that automatically analyzes s
 
 This project combines **Python, FastAPI, Machine Learning, SQL, and React** to build an end-to-end customer support analytics system.
 
----
-
 ## 📌 Project Overview
-
 Customer support teams receive a large number of support requests every day.
-
 Manually analyzing and categorizing these requests can be time-consuming.
-
 **Smart Support Analytics** helps automate this process by:
-
 - Automatically classifying support tickets
 - Detecting ticket priority
 - Analyzing customer sentiment
@@ -22,7 +16,9 @@ Manually analyzing and categorizing these requests can be time-consuming.
 - Searching and filtering support tickets
 - Displaying important support insights
 
----
+## 🚀 Live Demo
+
+live link :  (https://smart-support-analytics-4tol.vercel.app/)**
 
 ## ✨ Features
 
