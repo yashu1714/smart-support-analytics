@@ -1152,25 +1152,22 @@ function App() {
             </option>
 
 
-            {Object.keys(categories).map(
-
-              (category) => (
-
-                <option
-
-                  key={category}
-
-                  value={category}
-
-                >
-
-                  {category}
-
-                </option>
-
-              )
-
-            )}
+           {[
+  "Payment",
+  "Account",
+  "Technical",
+  "Delivery",
+  "General"
+].map(
+  (category) => (
+    <option
+      key={category}
+      value={category}
+    >
+      {category}
+    </option>
+  )
+)}
 
           </select>
 
