@@ -1,61 +1,83 @@
-def predict_category(message: str):
 
+def predict_category(message: str):
     message = message.lower()
 
-    if "payment" in message or "refund" in message or "charged" in message:
+    if any(word in message for word in [
+        "payment", "refund", "charged", "billing", "transaction"
+    ]):
         return "Payment"
 
-    elif "login" in message or "password" in message or "account" in message:
+    elif any(word in message for word in [
+        "login", "log in", "password", "account", "otp", "sign in"
+    ]):
         return "Account"
 
-    elif "crash" in message or "error" in message or "bug" in message:
+    elif any(word in message for word in [
+        "crash", "crashed", "crashing", "error", "bug",
+        "application", "app", "not opening", "stopped working"
+    ]):
         return "Technical"
 
-    elif "delivery" in message or "order" in message or "shipping" in message:
+    elif any(word in message for word in [
+        "delivery", "order", "shipping", "shipment", "courier"
+    ]):
         return "Delivery"
 
-    else:
-        return "General"
+    return "General"
 
 
 def predict_priority(message: str):
-
     message = message.lower()
 
     high_priority_words = [
+        "crash",
+        "crashed",
+        "crashing",
+        "application crashed",
+        "app crashed",
+        "completely down",
+        "system down",
         "urgent",
         "immediately",
         "fraud",
         "hacked",
         "stolen",
         "money deducted",
-        "payment failed"
+        "payment failed",
+        "account blocked",
+        "data loss",
     ]
 
-    for word in high_priority_words:
-        if word in message:
-            return "High"
+    if any(word in message for word in high_priority_words):
+        return "High"
 
     medium_priority_words = [
         "problem",
         "issue",
         "not working",
         "failed",
-        "error"
+        "failure",
+        "error",
+        "bug",
+        "slow",
+        "delay",
+        "unable to",
+        "not opening",
     ]
 
-    for word in medium_priority_words:
-        if word in message:
-            return "Medium"
+    if any(word in message for word in medium_priority_words):
+        return "Medium"
 
     return "Low"
 
 
 def predict_sentiment(message: str):
-
     message = message.lower()
 
     negative_words = [
+        "crash",
+        "crashed",
+        "crashing",
         "angry",
         "bad",
         "worst",
@@ -65,29 +87,39 @@ def predict_sentiment(message: str):
         "hate",
         "disappointed",
         "failed",
+        "failure",
         "problem",
         "issue",
-        "not working"
+        "not working",
+        "error",
+        "bug",
+        "broken",
+        "unable to",
+        "not opening",
+        "slow",
+        "delayed",
+        "money deducted",
+        "payment failed",
     ]
 
     positive_words = [
-        "good",
         "great",
         "excellent",
-        "thank",
+        "thank you",
         "thanks",
         "happy",
         "helpful",
         "awesome",
-        "solved"
+        "solved",
+        "resolved",
+        "working fine",
+        "works perfectly",
     ]
 
-    for word in negative_words:
-        if word in message:
-            return "Negative"
+    if any(word in message for word in negative_words):
+        return "Negative"
 
-    for word in positive_words:
-        if word in message:
-            return "Positive"
+    if any(word in message for word in positive_words):
+        return "Positive"
 
     return "Neutral"
