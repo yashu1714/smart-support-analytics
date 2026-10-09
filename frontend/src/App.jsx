@@ -14,6 +14,9 @@ import {
   Legend,
 } from "recharts";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const API_URL =
   import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
@@ -38,9 +41,7 @@ function App() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // ==========================================
-  // FETCH ANALYTICS AND TICKETS
-  // ==========================================
+
   async function fetchAnalytics() {
     try {
       const [
@@ -78,11 +79,13 @@ function App() {
       setPriority(priorityData);
       setSentiment(sentimentData);
       setTickets(ticketsData);
+
       setError("");
     } catch (err) {
       console.error("Dashboard error:", err);
+
       setError(
-        "Unable to connect to FastAPI. Please check whether the backend is running."
+        "Unable to connect to FastAPI. Please check the backend."
       );
     } finally {
       setLoading(false);
@@ -93,9 +96,7 @@ function App() {
     fetchAnalytics();
   }, []);
 
-  // ==========================================
-  // CREATE SUPPORT TICKET
-  // ==========================================
+
   async function createTicket(event) {
     event.preventDefault();
 
@@ -105,22 +106,33 @@ function App() {
     const trimmedName = customerName.trim();
     const trimmedMessage = message.trim();
 
-    // Frontend validation
+    // Validate empty fields
     if (!trimmedName || !trimmedMessage) {
-      setError("Please enter both the customer name and support message.");
+      const errorMessage =
+        "Please enter both customer name and support message.";
+
+      setError(errorMessage);
+      toast.error(errorMessage);
       return;
     }
 
-    // Reject names/messages containing only numbers or symbols
+    // Reject names containing only numbers or symbols
     if (!/[a-zA-Z]/.test(trimmedName)) {
-      setError("Please enter a valid customer name containing letters.");
+      const errorMessage =
+        "Please enter a valid customer name containing letters.";
+
+      setError(errorMessage);
+      toast.error(errorMessage);
       return;
     }
 
+    // Reject messages containing only numbers or symbols
     if (!/[a-zA-Z]/.test(trimmedMessage)) {
-      setError(
-        "Please enter a valid support message containing letters."
-      );
+      const errorMessage =
+        "Please enter a valid support message containing letters.";
+
+      setError(errorMessage);
+      toast.error(errorMessage);
       return;
     }
 
@@ -138,7 +150,6 @@ function App() {
         }),
       });
 
-      // Read the response from FastAPI
       const data = await response.json();
 
       // Handle backend validation errors
@@ -178,33 +189,43 @@ function App() {
         );
       }
 
-      // Clear the form after successful creation
+      // Clear the form after success
       setCustomerName("");
       setMessage("");
 
+      const successMessage =
+        `Ticket #${data.id} created successfully!`;
+
       setSuccess(
-        `Ticket #${data.id} created successfully! ` +
-          `Category: ${data.category} | ` +
+        `${successMessage} Category: ${data.category} | ` +
           `Priority: ${data.priority} | ` +
           `Sentiment: ${data.sentiment}`
       );
 
-      // Refresh dashboard data
+      // Toast notifications
+      toast.success(successMessage);
+
+      toast.info(
+        `Category: ${data.category} | ` +
+          `Priority: ${data.priority} | ` +
+          `Sentiment: ${data.sentiment}`
+      );
+
+      // Refresh dashboard
       await fetchAnalytics();
     } catch (err) {
       console.error("Create ticket error:", err);
 
-      setError(
-        err.message || "Unable to create ticket. Please try again."
-      );
+      const errorMessage =
+        err.message || "Unable to create ticket. Please try again.";
+
+      setError(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setSubmitting(false);
     }
   }
 
-  // ==========================================
-  // FILTER TICKETS
-  // ==========================================
   const filteredTickets = tickets.filter((ticket) => {
     const search = searchTerm.toLowerCase().trim();
 
@@ -236,16 +257,22 @@ function App() {
     );
   });
 
-  // ==========================================
-  // LOADING STATE
-  // ==========================================
   if (loading) {
-    return <div className="loading">Loading analytics...</div>;
+    return (
+      <>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          newestOnTop
+          closeOnClick
+          pauseOnHover
+          theme="colored"
+        />
+        <div className="loading">Loading analytics...</div>
+      </>
+    );
   }
 
-  // ==========================================
-  // DASHBOARD DATA
-  // ==========================================
   const totalTickets = summary?.total_tickets || 0;
   const highPriority = summary?.high_priority_tickets || 0;
   const negativeSentiment =
@@ -253,27 +280,17 @@ function App() {
   const openTickets = summary?.open_tickets || 0;
 
   const categoryChartData = Object.entries(categories).map(
-    ([name, value]) => ({
-      name,
-      value,
-    })
+    ([name, value]) => ({ name, value })
   );
 
   const priorityChartData = Object.entries(priority).map(
-    ([name, value]) => ({
-      name,
-      value,
-    })
+    ([name, value]) => ({ name, value })
   );
 
   const sentimentChartData = Object.entries(sentiment).map(
-    ([name, value]) => ({
-      name,
-      value,
-    })
+    ([name, value]) => ({ name, value })
   );
 
-  // Find the most common category
   let topCategory = "None";
   let topCategoryCount = 0;
 
@@ -302,11 +319,19 @@ function App() {
     Low: "#22c55e",
   };
 
-  // ==========================================
-  // MAIN DASHBOARD
-  // ==========================================
   return (
     <div className="dashboard">
+      {/* TOAST NOTIFICATIONS */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
+
       {/* HEADER */}
       <header className="header">
         <div>
@@ -465,7 +490,6 @@ function App() {
               <XAxis dataKey="name" />
               <YAxis allowDecimals={false} />
               <Tooltip />
-
               <Bar
                 dataKey="value"
                 name="Tickets"
@@ -549,7 +573,7 @@ function App() {
         </div>
       </section>
 
-      {/* TICKET LIST */}
+      {/* SUPPORT TICKETS */}
       <section className="panel">
         <div className="tickets-header">
           <div>
@@ -642,6 +666,7 @@ function App() {
               <div className="ticket-row" key={ticket.id}>
                 <span>#{ticket.id}</span>
                 <span>{ticket.customer_name}</span>
+
                 <span className="ticket-message">
                   {ticket.message}
                 </span>
